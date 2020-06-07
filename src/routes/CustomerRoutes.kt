@@ -5,11 +5,19 @@ import com.example.models.customerStorage
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Location
+import io.ktor.locations.delete
+import io.ktor.locations.get
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondText
-import io.ktor.routing.*
+import io.ktor.routing.Route
+import io.ktor.routing.post
+import io.ktor.routing.route
+import io.ktor.routing.routing
 
+@KtorExperimentalLocationsAPI
 fun Application.registerCustomerRoutes() {
     routing {
         route("/customer") {
@@ -21,8 +29,15 @@ fun Application.registerCustomerRoutes() {
     }
 }
 
+@KtorExperimentalLocationsAPI
+@Location(path = "/customer")
+data class CustomerReq(
+        val id: String? = ""
+)
+
+@KtorExperimentalLocationsAPI
 fun Route.getAllCustomers() {
-    get() {
+    get<CustomerReq> {
         if(customerStorage.isNotEmpty()) {
             call.respond(customerStorage)
         } else {
@@ -31,9 +46,10 @@ fun Route.getAllCustomers() {
     }
 }
 
+@KtorExperimentalLocationsAPI
 fun Route.getCustomerById() {
-    get("{id}") {
-        val id = call.parameters["id"] ?: return@get call.respondText(
+    get<CustomerReq> { req ->
+        val id = req.id ?: return@get call.respondText(
                 "Missing or malformed id",
                 status = HttpStatusCode.BadRequest
         )
@@ -53,9 +69,10 @@ fun Route.createCustomer() {
     }
 }
 
+@KtorExperimentalLocationsAPI
 fun Route.deleteCustomerById() {
-    delete("{id}") {
-        val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+    delete<CustomerReq> { req ->
+        val id = req.id ?: return@delete call.respond(HttpStatusCode.BadRequest)
         if (customerStorage.removeIf { it.id == id }) {
             call.respondText("Customer removed correctly.", status = HttpStatusCode.Accepted)
         } else {

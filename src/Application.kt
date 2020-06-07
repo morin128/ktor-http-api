@@ -6,12 +6,14 @@ import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
+import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.serialization.DefaultJsonConfiguration
 import io.ktor.serialization.json
 import kotlinx.serialization.json.Json
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@KtorExperimentalLocationsAPI
 fun Application.module(testing: Boolean = false) {
 
     // see. https://ktor.io/servers/features/content-negotiation/serialization-converter.html

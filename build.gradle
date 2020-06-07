@@ -46,6 +46,6 @@ dependencies {
     // Add manually
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
     implementation "io.ktor:ktor-serialization:$ktor_version"
-    //implementation "io.ktor:ktor-gson:$ktor_version"
-    //compile "io.ktor:ktor-gson:$ktor_version"
+
+    implementation "io.ktor:ktor-locations:$ktor_version"
 }

@@ -1,5 +1,6 @@
 package com.example
 
+import com.example.routes.profileRoutes
 import com.example.routes.registerCustomerRoutes
 import com.example.routes.registerOrderRoutes
 import io.ktor.application.Application
@@ -7,6 +8,7 @@ import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Locations
 import io.ktor.serialization.DefaultJsonConfiguration
 import io.ktor.serialization.json
 import kotlinx.serialization.json.Json
@@ -25,6 +27,9 @@ fun Application.module(testing: Boolean = false) {
         )
     }
 
+    install(Locations)
+
     registerCustomerRoutes()
     registerOrderRoutes()
+    profileRoutes()
 }

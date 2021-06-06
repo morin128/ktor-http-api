@@ -41,7 +41,7 @@ fun Route.getAllCustomers() {
         if(customerStorage.isNotEmpty()) {
             call.respond(customerStorage)
         } else {
-            call.respondText("No customer found.", status = HttpStatusCode.NotFound)
+            call.respondText("No Customer Found.", status = HttpStatusCode.NotFound)
         }
     }
 }
